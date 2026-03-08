@@ -58,5 +58,5 @@ async def api_status():
     return {
         "api": "running",
         "llm_available": llm_client.is_available,
-        "llm_model": settings.BEDROCK_MODEL_ID if llm_client.is_available else "mock",
+        "llm_model": settings.GROQ_MODEL if llm_client.is_available else "mock",
     }

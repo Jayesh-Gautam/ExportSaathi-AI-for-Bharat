@@ -5,11 +5,9 @@ from typing import Optional
 class Settings(BaseSettings):
     """Application configuration loaded from environment variables."""
 
-    # AWS Bedrock
-    AWS_REGION: str = "ap-south-1"
-    AWS_ACCESS_KEY_ID: Optional[str] = None
-    AWS_SECRET_ACCESS_KEY: Optional[str] = None
-    BEDROCK_MODEL_ID: str = "amazon.nova-lite-v1:0"
+    # Groq API
+    GROQ_API_KEY: Optional[str] = None
+    GROQ_MODEL: str = "llama-3.3-70b-versatile"
 
     # App
     APP_NAME: str = "ExportSaathi"

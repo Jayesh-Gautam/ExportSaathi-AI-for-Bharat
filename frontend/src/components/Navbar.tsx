@@ -54,21 +54,7 @@ export default function Navbar() {
             }}>
                 {/* Logo */}
                 <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.65rem' }}>
-                    <div style={{
-                        width: '34px', height: '34px', borderRadius: '10px',
-                        background: 'linear-gradient(135deg, #4f46e5, #0891b2)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: '18px',
-                        boxShadow: '0 2px 12px rgba(79,70,229,0.2)',
-                        flexShrink: 0,
-                    }}>🚢</div>
-                    <div>
-                        <span style={{
-                            fontSize: '1.15rem', fontWeight: 800, letterSpacing: '-0.02em',
-                            background: 'linear-gradient(135deg, #1e293b, #4f46e5)',
-                            WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                        }}>ExportSaathi</span>
-                    </div>
+                    <img src="/logo.png" alt="ExportSaathi" style={{ height: '42px', objectFit: 'contain' }} />
                 </Link>
 
                 {/* Desktop nav items */}

@@ -180,22 +180,8 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
                     {/* Brand heading */}
                     <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '10px' }}>
-                            <div style={{
-                                width: '54px', height: '54px', borderRadius: '16px',
-                                background: 'linear-gradient(135deg, #4f46e5, #0891b2)',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                fontSize: '26px', flexShrink: 0,
-                                boxShadow: '0 8px 28px rgba(79,70,229,0.25)',
-                                animation: 'float 4s ease-in-out infinite',
-                            }}>🚢</div>
+                            <img src="/logo.png" alt="ExportSaathi" style={{ height: '140px', objectFit: 'contain' }} />
                             <div>
-                                <h1 style={{
-                                    fontSize: 'clamp(2rem, 3.5vw, 2.8rem)',
-                                    fontWeight: 900, lineHeight: 1.05,
-                                    background: 'linear-gradient(135deg, #0f172a 0%, #4f46e5 55%, #0891b2 100%)',
-                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-                                    letterSpacing: '-0.04em', margin: 0,
-                                }}>ExportSaathi</h1>
                                 <p style={{ fontSize: '0.8rem', color: '#94a3b8', margin: '2px 0 0', fontWeight: 500 }}>
                                     AI Co-Pilot for Indian MSMEs
                                 </p>

@@ -156,10 +156,11 @@ export default function ReportDisplay({ report, onBack, onCertClick }: ReportDis
                         ].map((s, i) => (
                             <div key={i} style={{
                                 padding: '10px 12px', borderRadius: '12px', textAlign: 'center',
-                                background: `${s.color}08`, border: `1px solid ${s.color}20`,
+                                background: s.color, border: `1px solid ${s.color}`,
+                                boxShadow: `0 4px 10px ${s.color}40`, color: 'white'
                             }}>
-                                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: s.color }}>{s.val}</div>
-                                <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{s.label}</div>
+                                <div style={{ fontSize: '1.4rem', fontWeight: 800 }}>{s.val}</div>
+                                <div style={{ fontSize: '0.7rem', fontWeight: 500, opacity: 0.9 }}>{s.label}</div>
                             </div>
                         ))}
                     </div>

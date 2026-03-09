@@ -58,7 +58,7 @@ cd backend
 This creates an isolated Python environment for the project.
 
 ```
-python -m venv venv
+py -m venv venv
 ```
 
 ---

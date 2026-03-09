@@ -19,7 +19,7 @@ LOGISTICS_PROMPT = """Analyze logistics risks for this export:
 **Monthly Volume:** {volume} units
 **Business Type:** {business_type}
 
-Generate comprehensive logistics risk analysis as JSON:
+Generate comprehensive logistics risk analysis as JSON. MAPPING RULE: The recommended route MUST geographically make sense for the destination (e.g. Strait of Malacca for East Asia/Australia, Suez Canal for Europe/US East Coast, Pacific Ocean for US West Coast, Arabian Sea for Middle East).
 {{
   "lcl_vs_fcl": {{
     "recommendation": "LCL",
@@ -37,7 +37,7 @@ Generate comprehensive logistics risk analysis as JSON:
     "mitigation_tips": ["Ensure complete documentation", "Use authorized customs broker", "Pre-clear with customs"]
   }},
   "route_analysis": {{
-    "recommended_route": "Mumbai (JNPT) → via Suez Canal → destination country port",
+    "recommended_route": "[APPROPRIATE INDIAN PORT] India → [LOGICAL TRANSIT ROUTE] → [APPROPRIATE DESTINATION PORT]",
     "estimated_transit_days": 21,
     "delay_risk": "medium",
     "current_disruptions": ["Red Sea route disruptions causing 7-10 day delays", "Port congestion at peak season"],
@@ -85,6 +85,19 @@ def analyze_logistics(report_data: dict) -> dict:
 def _mock_logistics(report_data: dict) -> dict:
     """Fallback logistics analysis."""
     destination = report_data.get("destination_country", "USA")
+    dest_lower = destination.lower()
+    
+    if any(c in dest_lower for c in ["europe", "uk", "germany", "france", "italy", "spain", "netherlands"]):
+        transit = "Suez Canal"
+    elif any(c in dest_lower for c in ["australia", "new zealand", "japan", "china", "korea", "singapore", "malaysia", "indonesia"]):
+        transit = "Strait of Malacca"
+    elif any(c in dest_lower for c in ["uae", "dubai", "saudi", "oman", "qatar"]):
+        transit = "Arabian Sea"
+    elif any(c in dest_lower for c in ["usa", "united states", "canada", "mexico"]):
+        transit = "Suez Canal / Pacific Ocean"
+    else:
+        transit = "Major Global Shipping Lanes"
+
     return {
         "lcl_vs_fcl": {
             "recommendation": "LCL",
@@ -105,7 +118,7 @@ def _mock_logistics(report_data: dict) -> dict:
             ],
         },
         "route_analysis": {
-            "recommended_route": f"Mumbai (JNPT) → Suez Canal → {destination}",
+            "recommended_route": f"Mumbai (JNPT) → {transit} → {destination}",
             "estimated_transit_days": 25,
             "delay_risk": "medium",
             "current_disruptions": ["Red Sea route diversions adding 7-12 days to some routes"],

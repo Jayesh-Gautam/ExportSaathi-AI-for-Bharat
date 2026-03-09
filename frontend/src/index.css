@@ -1,24 +1,22 @@
-@import "tailwindcss";
-
-/* ── Fonts ──────────────────────────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
 
 /* ── Custom Properties — Light & Classy Theme ──────────────────────────────── */
 :root {
-  --color-primary: #4f46e5;
-  --color-primary-light: #6366f1;
-  --color-primary-dark: #4338ca;
-  --color-accent: #0891b2;
-  --color-accent-light: #06b6d4;
+  --color-primary: #2563eb;
+  --color-primary-light: #3b82f6;
+  --color-primary-dark: #1d4ed8;
+  --color-secondary: #0ea5e9;
+  --color-accent: #22c55e;
   --color-success: #059669;
   --color-warning: #d97706;
   --color-danger: #dc2626;
 
   /* Backgrounds */
-  --color-bg: #f8f9fc;
+  --color-bg: #f8fafc;
   --color-bg-secondary: #ffffff;
   --color-bg-card: #ffffff;
-  --color-bg-glass: rgba(255, 255, 255, 0.82);
+  --color-bg-glass: rgba(255, 255, 255, 0.9);
   --color-bg-subtle: #f1f5f9;
 
   /* Text */
@@ -59,23 +57,21 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
-/* ── Soft Ambient Background ────────────────────────────────────────────────── */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    radial-gradient(ellipse at 15% 15%, rgba(99, 102, 241, 0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 85% 85%, rgba(8, 145, 178, 0.03) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 50%, rgba(99, 102, 241, 0.015) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
 }
+
+h1 { font-size: 2.5rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
+
+/* ── Ambient Background Removed ────────────────────────────────────────────────── */
 
 #root {
   position: relative;

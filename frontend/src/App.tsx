@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import type { QueryInput, ExportReadinessReport, Certification } from './types';
 import { generateReport } from './services/api';
@@ -10,6 +10,8 @@ import CertificationDetailModal from './components/CertificationDetailModal';
 import DocumentationHub from './components/DocumentationHub';
 import FinanceDashboard from './components/FinanceDashboard';
 import LogisticsShield from './components/LogisticsShield';
+import ShipIntroAnimation from './components/ShipIntroAnimation';
+import ParticleBackground from './components/ParticleBackground';
 
 /* ── Shared App State ──────────────────────────────────────────── */
 
@@ -48,8 +50,9 @@ function AppContent() {
 
   return (
     <>
+      <ParticleBackground />
       <Navbar />
-      <div style={{ paddingTop: '80px', minHeight: '100vh', padding: '80px 20px 40px' }}>
+      <div style={{ paddingTop: '80px', minHeight: '100vh', position: 'relative', zIndex: 1 }}>
         <Routes>
           {/* Home — Query Form */}
           <Route path="/" element={
@@ -173,8 +176,18 @@ function AppContent() {
 /* ── Root App with Router ─────────────────────────────────────── */
 
 export default function App() {
+  const [showIntro, setShowIntro] = useState(() => {
+    return !sessionStorage.getItem('introPlayed');
+  });
+
+  const handleIntroComplete = useCallback(() => {
+    setShowIntro(false);
+    sessionStorage.setItem('introPlayed', 'true');
+  }, []);
+
   return (
     <BrowserRouter>
+      {showIntro && <ShipIntroAnimation onComplete={handleIntroComplete} />}
       <AppContent />
     </BrowserRouter>
   );

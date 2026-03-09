@@ -1,0 +1,230 @@
+/* ── Ship Intro Animation Overlay — Light/Sunrise Theme ──────────────── */
+
+.ship-intro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(180deg, #dbeafe 0%, #e0f2fe 30%, #f0f9ff 60%, #f8fafc 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ship-intro-overlay.fading-out {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+}
+
+/* ── Canvas ───────────────────────────────────────────────────────────── */
+
+.ship-intro-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Progress Bar ─────────────────────────────────────────────────────── */
+
+.ship-intro-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(0, 0, 0, 0.04);
+    z-index: 2;
+}
+
+.ship-intro-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4f46e5, #0891b2, #06b6d4);
+    border-radius: 0 2px 2px 0;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 12px rgba(79, 70, 229, 0.4),
+        0 0 30px rgba(8, 145, 178, 0.2);
+}
+
+/* ── Scroll Hint ──────────────────────────────────────────────────────── */
+
+.ship-intro-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    z-index: 3;
+    animation: hintPulse 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.ship-intro-hint-text {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(30, 41, 59, 0.45);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.ship-intro-hint-arrow {
+    width: 20px;
+    height: 20px;
+    border-right: 2px solid rgba(30, 41, 59, 0.3);
+    border-bottom: 2px solid rgba(30, 41, 59, 0.3);
+    transform: rotate(45deg);
+    animation: arrowBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes hintPulse {
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes arrowBounce {
+
+    0%,
+    100% {
+        transform: rotate(45deg) translateY(0);
+    }
+
+    50% {
+        transform: rotate(45deg) translateY(6px);
+    }
+}
+
+/* ── Brand Text Overlay ───────────────────────────────────────────────── */
+
+.ship-intro-brand {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    text-align: center;
+    pointer-events: none;
+}
+
+.ship-intro-brand h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2rem, 5vw, 4rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e293b, #4f46e5, #0891b2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.03em;
+    opacity: 0;
+    animation: brandFadeIn 1.2s ease 0.5s forwards;
+}
+
+.ship-intro-brand p {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.1rem);
+    font-weight: 500;
+    color: rgba(71, 85, 105, 0.7);
+    margin-top: 8px;
+    opacity: 0;
+    animation: brandFadeIn 1.2s ease 0.9s forwards;
+}
+
+@keyframes brandFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Simplified Fallback (Low Performance) ────────────────────────────── */
+
+.ship-intro-simple {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: linear-gradient(180deg, #dbeafe 0%, #e0f2fe 40%, #f8fafc 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: simpleFadeOut 3s ease 2s forwards;
+}
+
+.ship-intro-simple-content {
+    text-align: center;
+    animation: simplePulse 2s ease-in-out infinite;
+}
+
+.ship-intro-simple-content h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, #1e293b, #4f46e5, #0891b2);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.ship-intro-simple-content p {
+    color: rgba(71, 85, 105, 0.6);
+    font-size: 1rem;
+    margin-top: 12px;
+}
+
+@keyframes simpleFadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        pointer-events: none;
+    }
+}
+
+@keyframes simplePulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+    .ship-intro-hint {
+        bottom: 28px;
+    }
+
+    .ship-intro-hint-text {
+        font-size: 0.7rem;
+    }
+}

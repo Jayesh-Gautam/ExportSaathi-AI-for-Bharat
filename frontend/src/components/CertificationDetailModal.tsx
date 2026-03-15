@@ -78,6 +78,7 @@ export default function CertificationDetailModal({ certification, productType, d
                     padding: '1.5rem 2rem',
                     borderBottom: '1px solid rgba(255,255,255,0.08)',
                     display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
+                    flexShrink: 0,
                 }}>
                     <div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
@@ -108,6 +109,7 @@ export default function CertificationDetailModal({ certification, productType, d
                     padding: '0 2rem', display: 'flex', gap: '0.25rem',
                     borderBottom: '1px solid rgba(255,255,255,0.06)',
                     overflowX: 'auto',
+                    flexShrink: 0,
                 }}>
                     {tabs.map(t => (
                         <button key={t.key} onClick={() => setActiveTab(t.key)}
@@ -124,7 +126,7 @@ export default function CertificationDetailModal({ certification, productType, d
                 </div>
 
                 {/* Content */}
-                <div style={{ padding: '1.5rem 2rem', overflowY: 'auto', flex: 1 }}>
+                <div style={{ padding: '1.5rem 2rem', overflowY: 'auto', flex: 1, minHeight: 0 }}>
                     {loading && (
                         <div style={{ textAlign: 'center', padding: '3rem', color: '#94a3b8' }}>
                             <div style={{ fontSize: '2rem', marginBottom: '1rem', animation: 'pulse 2s infinite' }}>🔍</div>
@@ -335,6 +337,7 @@ export default function CertificationDetailModal({ certification, productType, d
                         padding: '1rem 2rem',
                         borderTop: '1px solid rgba(255,255,255,0.06)',
                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                        flexShrink: 0,
                     }}>
                         <span style={{ fontSize: '0.8rem', color: '#64748b' }}>
                             Est. cost: ₹{guidance.estimated_total_cost_inr.min.toLocaleString()} – ₹{guidance.estimated_total_cost_inr.max.toLocaleString()} · {guidance.estimated_total_days} days

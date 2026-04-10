@@ -53,7 +53,7 @@ export default function Navbar() {
             }}>
                 {/* Logo */}
                 <Link to="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.65rem', marginLeft: '6px' }}>
-                    <img src="/logo.png" alt="ExportSaathi" style={{ height: '34px', objectFit: 'contain' }} />
+                    <img src="/logo.png" alt="ExportSaathi" style={{ height: '46px', objectFit: 'contain' }} />
                 </Link>
 
                 {/* Desktop nav items */}

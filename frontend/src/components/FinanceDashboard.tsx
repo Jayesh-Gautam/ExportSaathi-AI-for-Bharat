@@ -91,7 +91,10 @@ export default function FinanceDashboard({ reportData }: Props) {
     ];
 
     return (
-        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-4 sm:px-8 lg:px-12 pb-10 lg:pb-0">
+        <div style={{
+            height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column',
+            padding: '16px clamp(16px,3vw,48px) 0',
+        }}>
             {/* Page title */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', flexShrink: 0 }}>
                 <span style={{ fontSize: '1.4rem' }}>💰</span>
@@ -106,11 +109,14 @@ export default function FinanceDashboard({ reportData }: Props) {
             </div>
 
             {/* Two-column grid */}
-            <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[14px] flex-1 pb-[16px] overflow-visible lg:overflow-hidden">
+            <div style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr',
+                gap: '14px', flex: 1, overflow: 'hidden', paddingBottom: '16px',
+            }}>
                 {/* ── LEFT: Working Capital + Cash Flow ── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '4px' }}>
                     <Card title="💼 Working Capital Requirement" accent="#6366f1">
-                        <div className="grid grid-cols-2 lg:grid-cols-3 gap-[8px] mb-[10px]">
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '10px' }}>
                             {wcItems.map((item, i) => (
                                 <div key={i} style={{
                                     padding: '8px', borderRadius: '10px', textAlign: 'center',
@@ -141,7 +147,7 @@ export default function FinanceDashboard({ reportData }: Props) {
                                 const pct = Math.abs(cf.balance) / maxAbs * 100;
                                 const pos = cf.balance >= 0;
                                 return (
-                                    <div key={i} className="flex flex-col sm:grid sm:grid-cols-[120px_1fr_90px] items-start sm:items-center gap-[8px] mb-4 sm:mb-0">
+                                    <div key={i} style={{ display: 'grid', gridTemplateColumns: '120px 1fr 90px', alignItems: 'center', gap: '8px' }}>
                                         <div style={{ fontSize: '0.73rem', color: '#94a3b8', fontWeight: 500 }}>{cf.label}</div>
                                         <div style={{ height: '18px', borderRadius: '5px', background: '#f1f5f9', overflow: 'hidden' }}>
                                             <div style={{
@@ -168,7 +174,7 @@ export default function FinanceDashboard({ reportData }: Props) {
 
                 {/* ── RIGHT: RoDTEP + Credit + GST + Gap ── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '4px' }}>
-                    <div className="flex flex-col xl:grid xl:grid-cols-2 gap-[12px]">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         <Card title="🏛 RoDTEP Benefit" accent="#10b981">
                             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#10b981', marginBottom: '4px' }}>
                                 {rodtep.applicable ? formatINR(rodtep.estimated_benefit || 0) : 'Not Applicable'}
@@ -190,7 +196,7 @@ export default function FinanceDashboard({ reportData }: Props) {
                         </Card>
                     </div>
 
-                    <div className="flex flex-col xl:grid xl:grid-cols-2 gap-[12px]">
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                         <Card title="💸 GST Refund" accent="#6366f1">
                             <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#6366f1', marginBottom: '2px' }}>{formatINR(gst.estimated_amount || 0)}</div>
                             <div style={{ fontSize: '0.73rem', color: '#94a3b8' }}>Expected in ~{gst.estimated_days} days</div>
@@ -212,7 +218,7 @@ export default function FinanceDashboard({ reportData }: Props) {
 
                     {/* Summary metric tiles */}
                     <Card title="📈 Key Metrics Summary" accent="#8b5cf6">
-                        <div className="grid grid-cols-2 gap-[8px]">
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
                             {[
                                 { label: 'Net Benefit (RoDTEP)', val: formatINR(rodtep.estimated_benefit || 0), color: '#10b981' },
                                 { label: 'Credit Available', val: credit.eligible ? formatINR(credit.max_amount || 0) : '—', color: '#06b6d4' },

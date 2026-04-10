@@ -94,15 +94,20 @@ function AppContent() {
           {/* Report View */}
           <Route path="/report" element={
             report ? (
-              <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] h-full">
-                <div className="w-full max-w-full overflow-hidden">
-                  <ReportDisplay
-                    report={report}
-                    onBack={handleBack}
-                    onCertClick={(cert) => setSelectedCert(cert)}
-                  />
-                </div>
-                <div style={{ position: 'sticky', top: '80px', height: 'calc(100vh - 80px)', borderLeft: '1px solid rgba(0,0,0,0.08)' }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 380px',
+                gap: '20px',
+                maxWidth: '1320px',
+                margin: '0 auto',
+                alignItems: 'start',
+              }}>
+                <ReportDisplay
+                  report={report}
+                  onBack={handleBack}
+                  onCertClick={(cert) => setSelectedCert(cert)}
+                />
+                <div style={{ position: 'sticky', top: '84px' }}>
                   <ChatInterface
                     reportId={report.report_id}
                     productType={queryContext.product}

@@ -143,7 +143,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
 
     return (
         <div style={{
-            minHeight: 'calc(100vh - 80px)',
+            height: 'calc(100vh - 80px)',
             display: 'flex', alignItems: 'center',
             padding: '0 clamp(16px, 3vw, 48px)',
             overflow: 'hidden',
@@ -151,7 +151,15 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
             transform: visible ? 'none' : 'translateY(24px)',
             transition: 'all 0.6s cubic-bezier(0.16,1,0.3,1)',
         }}>
-            <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-14 w-full max-w-[1280px] mx-auto items-center pb-20 lg:pb-0">
+            <div style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1.05fr',
+                gap: 'clamp(24px, 3vw, 56px)',
+                width: '100%',
+                maxWidth: '1280px',
+                margin: '0 auto',
+                alignItems: 'center',
+            }}>
 
                 {/* ── LEFT PANEL: Brand + Info ───────────────────────── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -190,7 +198,8 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
                     </div>
 
                     {/* Stats row */}
-                    <div className="grid grid-cols-2 lg:grid-cols-4" style={{
+                    <div style={{
+                        display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
                         gap: '12px', padding: '14px 18px',
                         background: 'rgba(255,255,255,0.85)',
                         backdropFilter: 'blur(12px)',
@@ -277,7 +286,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
                         </div>
 
                         {/* Row: Country + Business Type */}
-                        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-[12px]">
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                             <div>
                                 <label style={labelStyle}>
                                     Destination Country <span style={{ color: '#ef4444' }}>*</span>
@@ -311,7 +320,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
                         </div>
 
                         {/* Row: Company Size + Monthly Volume */}
-                        <div className="flex flex-col sm:grid sm:grid-cols-2 gap-[12px]">
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                             <div>
                                 <label style={labelStyle}>Company Size</label>
                                 <select

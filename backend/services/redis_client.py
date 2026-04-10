@@ -27,6 +27,15 @@ class RedisClient:
                 )
                 # Test connection
                 self.redis.ping()
+                
+                # Apply required configuration limits
+                try:
+                    self.redis.config_set("maxmemory", "256mb")
+                    self.redis.config_set("maxmemory-policy", "allkeys-lru")
+                    logger.info("Configured Redis: maxmemory=256mb, policy=allkeys-lru")
+                except Exception as config_err:
+                    logger.warning(f"Could not apply config to Redis (insufficient permissions or managed service): {config_err}")
+                
                 logger.info(f"Successfully connected to Redis at {self.url}")
             except Exception as e:
                 logger.error(f"Failed to connect to Redis: {e}")

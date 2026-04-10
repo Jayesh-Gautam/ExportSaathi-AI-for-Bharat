@@ -227,7 +227,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
 
                     {/* Trust strip */}
                     <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-                        {['🔒 Secure & Private', '⚡ Gemini AI', '🇮🇳 Made for Bharat', '✅ DGFT / FSSAI'].map(t => (
+                        {['🔒 Secure & Private', '🇮🇳 Made for Bharat', '✅ DGFT / FSSAI'].map(t => (
                             <span key={t} style={{
                                 display: 'inline-flex', alignItems: 'center', gap: '4px',
                                 padding: '3px 10px', borderRadius: '20px',
@@ -433,7 +433,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
                         </button>
 
                         <p style={{ textAlign: 'center', fontSize: '0.68rem', color: '#94a3b8', margin: 0 }}>
-                            🔒 Your data is never stored or shared · Powered by Google Gemini
+                            🔒 Your data is never stored or shared
                         </p>
                     </form>
                 </div>

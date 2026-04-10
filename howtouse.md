@@ -15,6 +15,7 @@ Before starting, make sure you have installed:
 * ✅ Python (3.9 or above)
 * ✅ Node.js (LTS version recommended)
 * ✅ npm (comes with Node.js)
+* ✅ Redis Server (running locally)
 
 You can check installations:
 
@@ -94,6 +95,15 @@ copy .env.example .env
 ```
 
 Now open the `.env` file and add your API keys and configuration values.
+
+---
+
+## Step 5.5: Start Redis Server
+
+Ensure that your Redis server is running locally on port 6379. 
+If you are using Docker:
+`docker run -d -p 6379:6379 redis`
+Or if you have Redis installed directly on Windows, start the `redis-server` service/process.
 
 ---
 

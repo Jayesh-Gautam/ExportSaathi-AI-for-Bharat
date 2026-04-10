@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     # App
     APP_NAME: str = "ExportSaathi"
     DEBUG: bool = True
+    REDIS_URL: str = "redis://localhost:6379/0"
 
     model_config = {
         "env_file": ".env",

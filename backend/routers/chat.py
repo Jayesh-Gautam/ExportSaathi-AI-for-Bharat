@@ -1,16 +1,18 @@
 """API routes for chat Q&A."""
 
 import logging
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from models.schemas import ChatRequest, ChatResponse, ChatMessage
 from services.chat_service import process_question, get_history
+from middleware.rate_limiter import RateLimiter
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/chat", tags=["Chat"])
 
+chat_rate_limiter = RateLimiter(times=20, seconds=60) # 20 requests per minute
 
-@router.post("", response_model=ChatResponse)
+@router.post("", response_model=ChatResponse, dependencies=[Depends(chat_rate_limiter)])
 async def submit_chat_question(request: ChatRequest):
     """Submit a follow-up question and get AI response."""
     try:

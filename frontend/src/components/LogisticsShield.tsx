@@ -75,10 +75,7 @@ export default function LogisticsShield({ reportData }: Props) {
     const rmsColor = rms.risk_level === 'high' ? '#ef4444' : rms.risk_level === 'medium' ? '#f59e0b' : '#10b981';
 
     return (
-        <div style={{
-            height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column',
-            padding: '16px clamp(16px,3vw,48px) 0',
-        }}>
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
             {/* Page title */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', flexShrink: 0 }}>
                 <span style={{ fontSize: '1.4rem' }}>🚢</span>
@@ -93,14 +90,14 @@ export default function LogisticsShield({ reportData }: Props) {
             </div>
 
             {/* Two-column grid */}
-            <div style={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr',
-                gap: '14px', flex: 1, overflow: 'hidden', paddingBottom: '16px',
+            <div className="flex flex-col sm:grid sm:grid-cols-2" style={{
+                background: 'rgba(255,255,255,0.95)', padding: '16px',
+                borderBottom: '1px solid rgba(0,0,0,0.06)'
             }}>
                 {/* ── LEFT: LCL/FCL + Route ── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', paddingRight: '4px' }}>
                     <Card title="📦 LCL vs FCL Recommendation" accent="#06b6d4">
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px', marginBottom: '8px' }}>
+                        <div className="flex flex-col xl:grid xl:grid-cols-2 gap-[8px] mb-[8px]">
                             {['LCL', 'FCL'].map((type) => {
                                 const isRec = lcl.recommendation === type;
                                 const cost = type === 'LCL' ? lcl.lcl_cost : lcl.fcl_cost;
@@ -211,7 +208,8 @@ export default function LogisticsShield({ reportData }: Props) {
                         )}
                     </Card>
 
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                    <div className="flex-1 overflow-y-auto p-[14px]">
+                    <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[12px]">
                         <Card title="🚛 Freight Estimates" accent="#f59e0b">
                             {[
                                 { label: 'Sea Freight', val: freight.sea_freight, rec: freight.recommended_mode === 'sea' },
@@ -235,23 +233,26 @@ export default function LogisticsShield({ reportData }: Props) {
                             )}
                         </Card>
                     </div>
+                    </div>
 
                     {/* Quick summary */}
-                    <Card title="📌 Quick Summary" accent="#8b5cf6">
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
-                            {[
-                                { label: 'Recommended Mode', val: lcl.recommendation || '—', color: '#06b6d4' },
-                                { label: 'RMS Risk', val: rms.risk_level || '—', color: rmsColor },
-                                { label: 'Transit Time', val: route.estimated_transit_days ? `${route.estimated_transit_days}d` : '—', color: '#6366f1' },
-                                { label: 'Insurance', val: insurance.recommended ? 'Recommended' : 'Optional', color: '#10b981' },
-                            ].map((m, i) => (
-                                <div key={i} style={{ padding: '8px', borderRadius: '10px', background: `${m.color}08`, border: `1px solid ${m.color}20` }}>
-                                    <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{m.label}</div>
-                                    <div style={{ fontSize: '0.9rem', fontWeight: 700, color: m.color }}>{m.val}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </Card>
+                    <div className="flex-1 flex flex-col justify-end">
+                        <Card title="📌 Quick Summary" accent="#8b5cf6">
+                            <div className="grid grid-cols-2 gap-[8px]">
+                                {[
+                                    { label: 'Recommended Mode', val: lcl.recommendation || '—', color: '#06b6d4' },
+                                    { label: 'RMS Risk', val: rms.risk_level || '—', color: rmsColor },
+                                    { label: 'Transit Time', val: route.estimated_transit_days ? `${route.estimated_transit_days}d` : '—', color: '#6366f1' },
+                                    { label: 'Insurance', val: insurance.recommended ? 'Recommended' : 'Optional', color: '#10b981' },
+                                ].map((m, i) => (
+                                    <div key={i} style={{ padding: '8px', borderRadius: '10px', background: `${m.color}08`, border: `1px solid ${m.color}20` }}>
+                                        <div style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{m.label}</div>
+                                        <div style={{ fontSize: '0.9rem', fontWeight: 700, color: m.color }}>{m.val}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </Card>
+                    </div>
                 </div>
             </div>
         </div>

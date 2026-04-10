@@ -33,7 +33,7 @@ export default function Navbar() {
 
     return (
         <>
-            <nav style={{
+            <nav className="px-4 md:px-8" style={{
                 position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
                 background: scrolled
                     ? 'rgba(255,255,255,0.95)'
@@ -43,7 +43,6 @@ export default function Navbar() {
                 borderBottom: scrolled
                     ? '1px solid rgba(99,102,241,0.1)'
                     : '1px solid rgba(99,102,241,0.05)',
-                padding: '0 2rem',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 height: '64px',
                 transition: 'all 0.4s cubic-bezier(0.16,1,0.3,1)',

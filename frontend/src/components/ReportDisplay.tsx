@@ -33,10 +33,7 @@ export default function ReportDisplay({ report, onBack, onCertClick }: ReportDis
     const scoreColor = riskColor(report.risk_score);
 
     return (
-        <div style={{
-            height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column',
-            padding: '16px clamp(16px,3vw,48px) 0',
-        }}>
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
             {/* Page header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexShrink: 0 }}>
                 <button onClick={onBack} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', fontSize: '0.82rem' }}>
@@ -50,7 +47,7 @@ export default function ReportDisplay({ report, onBack, onCertClick }: ReportDis
             </div>
 
             {/* Two-column layout */}
-            <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '14px', flex: 1, overflow: 'hidden', paddingBottom: '16px' }}>
+            <div className="flex flex-col lg:grid lg:grid-cols-[280px_1fr] gap-[14px] flex-1 pb-[16px] overflow-visible lg:overflow-hidden">
 
                 {/* ── LEFT: Snapshot panel ── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', overflowY: 'auto', paddingRight: '4px' }}>
@@ -147,7 +144,7 @@ export default function ReportDisplay({ report, onBack, onCertClick }: ReportDis
                     </div>
 
                     {/* Quick stats */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <div className="grid grid-cols-2 gap-[8px]">
                         {[
                             { label: 'Certifications', val: report.certifications.length, color: '#10b981' },
                             { label: 'Risks Found', val: report.risks.length, color: '#ef4444' },

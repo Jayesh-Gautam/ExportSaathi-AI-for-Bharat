@@ -62,10 +62,7 @@ export default function DocumentationHub({ reportData }: Props) {
     const activeDt = DOC_TYPES.find(d => d.id === selectedType);
 
     return (
-        <div style={{
-            height: 'calc(100vh - 80px)', display: 'flex', flexDirection: 'column',
-            padding: '16px clamp(16px,3vw,48px) 0',
-        }}>
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
@@ -87,8 +84,8 @@ export default function DocumentationHub({ reportData }: Props) {
                 )}
             </div>
 
-            {/* Two-column body */}
-            <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: '14px', flex: 1, overflow: 'hidden', paddingBottom: '16px' }}>
+            {/* Split layout */}
+            <div className="flex flex-col lg:grid lg:grid-cols-[220px_1fr] gap-[14px] flex-1 pb-[16px] overflow-visible lg:overflow-hidden">
 
                 {/* ── LEFT: Document type list ── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', overflowY: 'auto' }}>

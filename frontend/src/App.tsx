@@ -94,14 +94,7 @@ function AppContent() {
           {/* Report View */}
           <Route path="/report" element={
             report ? (
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 380px',
-                gap: '20px',
-                maxWidth: '1320px',
-                margin: '0 auto',
-                alignItems: 'start',
-              }}>
+              <div className="flex flex-col lg:grid lg:grid-cols-[1fr_380px] gap-[20px] max-w-[1320px] mx-auto items-start p-4 lg:p-0">
                 <ReportDisplay
                   report={report}
                   onBack={handleBack}

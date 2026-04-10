@@ -11,7 +11,11 @@ echo "🚀 Starting ExportSaathi Deployment on AWS EC2..."
 # 1. System Updates & Dependencies
 echo "📦 Installing system dependencies..."
 sudo apt-get update
-sudo apt-get install -y python3-pip python3-venv nginx curl git
+sudo apt-get install -y python3-pip python3-venv nginx curl git redis-server
+
+echo "🗄️ Starting Redis Server..."
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
 
 # 2. Node.js Installation
 echo "🟢 Installing Node.js 20..."

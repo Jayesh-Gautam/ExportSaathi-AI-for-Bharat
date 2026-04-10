@@ -2,16 +2,15 @@
 
 import uuid
 import logging
+import json
 from datetime import datetime
 from typing import Optional
 
 from models.schemas import ChatMessage, ChatResponse, QueryContext, Source
 from services.llm_client import llm_client
+from services.redis_client import redis_client
 
 logger = logging.getLogger(__name__)
-
-# In-memory session store
-_sessions: dict[str, dict] = {}
 
 CHAT_SYSTEM_PROMPT = """You are ExportSaathi, an AI-powered Export Compliance & Certification Co-Pilot for Indian MSMEs.
 
@@ -32,16 +31,29 @@ Your guidelines:
 """
 
 
-def create_session(context: QueryContext) -> str:
-    """Create a new chat session."""
-    session_id = str(uuid.uuid4())
-    _sessions[session_id] = {
-        "context": context,
+def get_or_create_session(session_id: str, context: QueryContext) -> dict:
+    """Get existing session or create a new one in Redis."""
+    if session_id:
+        data = redis_client.get(f"chat_session:{session_id}")
+        if data:
+            return json.loads(data)
+            
+    # Create new if not found or no session_id provided
+    session_data = {
+        "context": context.model_dump() if context else None,
         "messages": [],
         "created_at": datetime.now().isoformat(),
     }
-    logger.info(f"Created chat session {session_id}")
-    return session_id
+    return session_data
+
+
+def save_session(session_id: str, session_data: dict):
+    """Save session to Redis with 7 days expiration."""
+    redis_client.set(
+        f"chat_session:{session_id}", 
+        json.dumps(session_data), 
+        expire=86400 * 7
+    )
 
 
 def process_question(
@@ -51,16 +63,15 @@ def process_question(
 ) -> ChatResponse:
     """Process a chat question and return AI response."""
 
-    # Create session if it doesn't exist
-    if session_id not in _sessions:
-        _sessions[session_id] = {
-            "context": context,
-            "messages": [],
-            "created_at": datetime.now().isoformat(),
-        }
-
-    session = _sessions[session_id]
-    ctx = session["context"] or context
+    # Get or create session
+    session = get_or_create_session(session_id, context)
+    
+    # Use existing context if available, otherwise fallback
+    ctx_data = session.get("context")
+    if ctx_data:
+        ctx = QueryContext(**ctx_data)
+    else:
+        ctx = context
 
     # Add user message
     user_msg_id = str(uuid.uuid4())
@@ -70,19 +81,23 @@ def process_question(
         content=question,
         timestamp=datetime.now().isoformat(),
     )
-    session["messages"].append(user_msg)
+    # Serialize message to dict for storage
+    session["messages"].append(user_msg.model_dump())
 
     # Build messages for LLM
+    product_type = ctx.product_type if ctx and ctx.product_type else "Not specified"
+    destination_country = ctx.destination_country if ctx and ctx.destination_country else "Not specified"
+    
     system_prompt = CHAT_SYSTEM_PROMPT.format(
-        product_type=ctx.product_type or "Not specified",
-        destination_country=ctx.destination_country or "Not specified",
+        product_type=product_type,
+        destination_country=destination_country,
     )
 
     llm_messages = []
     for msg in session["messages"][-10:]:  # Last 10 messages for context
         llm_messages.append({
-            "role": msg.role,
-            "content": msg.content,
+            "role": msg.get("role"),
+            "content": msg.get("content"),
         })
 
     # Generate response
@@ -104,7 +119,10 @@ def process_question(
         sources=[],
         timestamp=datetime.now().isoformat(),
     )
-    session["messages"].append(assistant_msg)
+    session["messages"].append(assistant_msg.model_dump())
+
+    # Save updated session
+    save_session(session_id, session)
 
     return ChatResponse(
         message_id=assistant_msg_id,
@@ -116,7 +134,12 @@ def process_question(
 
 def get_history(session_id: str) -> list[ChatMessage]:
     """Get chat history for a session."""
-    session = _sessions.get(session_id)
-    if not session:
+    data = redis_client.get(f"chat_session:{session_id}")
+    if not data:
         return []
-    return session["messages"]
+        
+    session = json.loads(data)
+    messages = session.get("messages", [])
+    
+    # Return as ChatMessage objects
+    return [ChatMessage(**msg) for msg in messages]

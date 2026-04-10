@@ -36,7 +36,16 @@ nano .env
 ```
 Add your Access Key ID and Secret Access Key. Save and exit (`Ctrl+O`, `Enter`, `Ctrl+X`).
 
-## 5. Run Deployment Script
+## 5. Install Redis Server
+Since the backend uses Redis for caching and session state, you need to install it on your instance:
+```bash
+sudo apt update
+sudo apt install redis-server -y
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
+```
+
+## 6. Run Deployment Script
 Go back to the project root and run the deployment script. This installs Node, Python, Nginx, builds the frontend, and sets up the backend as a systemd service.
 
 ```bash

@@ -2,6 +2,13 @@ import { useState, useRef, useEffect } from 'react';
 import type { ChatMessage, QueryContext } from '../types';
 import { sendChatMessage } from '../services/api';
 
+const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+        return crypto.randomUUID();
+    }
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+};
+
 interface ChatInterfaceProps {
     reportId: string;
     productType: string;
@@ -12,7 +19,7 @@ export default function ChatInterface({ reportId, productType, destinationCountr
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [input, setInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [sessionId] = useState(() => crypto.randomUUID());
+    const [sessionId] = useState(() => generateId());
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -32,7 +39,7 @@ export default function ChatInterface({ reportId, productType, destinationCountr
 
         // Add user message immediately
         const userMsg: ChatMessage = {
-            message_id: crypto.randomUUID(),
+            message_id: generateId(),
             role: 'user',
             content: question,
             timestamp: new Date().toISOString(),
@@ -63,7 +70,7 @@ export default function ChatInterface({ reportId, productType, destinationCountr
             setMessages(prev => [...prev, assistantMsg]);
         } catch {
             const errorMsg: ChatMessage = {
-                message_id: crypto.randomUUID(),
+                message_id: generateId(),
                 role: 'assistant',
                 content: 'Sorry, I encountered an error. Please try again.',
                 timestamp: new Date().toISOString(),

@@ -2,15 +2,17 @@
 
 import json
 import logging
+import hashlib
 from typing import Optional
 
 from config import settings
+from services.redis_client import redis_client
 
 logger = logging.getLogger(__name__)
 
 
 class LLMClient:
-    """Unified LLM client using Groq API with fallback to mock data."""
+    """Unified synchronous LLM client using Groq API with Redis caching and fallback to mock data."""
 
     def __init__(self):
         self.api_key = settings.GROQ_API_KEY
@@ -34,16 +36,37 @@ class LLMClient:
     def is_available(self) -> bool:
         return self.client is not None
 
+    def _generate_cache_key(self, prefix: str, request_data: dict) -> str:
+        """Generate a unique cache key based on the request content."""
+        data_str = json.dumps(request_data, sort_keys=True)
+        hash_str = hashlib.md5(data_str.encode()).hexdigest()
+        return f"{prefix}:{self.model}:{hash_str}"
+
     def generate(
         self,
         prompt: str,
         system_prompt: str = "",
         temperature: float = 0.7,
         max_tokens: int = 4096,
+        cache_ttl: int = 86400 * 7, # 7 days default
     ) -> str:
         """Generate text response from LLM."""
         if not self.is_available:
             return self._mock_response(prompt)
+            
+        request_data = {
+            "prompt": prompt,
+            "system_prompt": system_prompt,
+            "temperature": temperature,
+            "max_tokens": max_tokens
+        }
+        
+        # Check cache
+        cache_key = self._generate_cache_key("llm_gen", request_data)
+        cached_result = redis_client.get(cache_key)
+        if cached_result:
+            logger.debug(f"Cache hit for generate: {cache_key}")
+            return cached_result
 
         try:
             messages = []
@@ -57,7 +80,11 @@ class LLMClient:
                 temperature=temperature,
                 max_tokens=max_tokens,
             )
-            return response.choices[0].message.content
+            result = response.choices[0].message.content
+            
+            # Save to cache
+            redis_client.set(cache_key, result, expire=cache_ttl)
+            return result
         except Exception as e:
             logger.error(f"LLM generation failed: {e}")
             raise
@@ -68,10 +95,29 @@ class LLMClient:
         system_prompt: str = "",
         temperature: float = 0.3,
         max_tokens: int = 8192,
+        cache_ttl: int = 86400 * 7, # 7 days cache
     ) -> dict:
         """Generate structured JSON response from LLM."""
         if not self.is_available:
             return self._mock_json_response(prompt)
+            
+        request_data = {
+            "prompt": prompt,
+            "system_prompt": system_prompt,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+            "json": True
+        }
+        
+        # Check cache
+        cache_key = self._generate_cache_key("llm_json", request_data)
+        cached_result = redis_client.get(cache_key)
+        if cached_result:
+            logger.debug(f"Cache hit for generate_json: {cache_key}")
+            try:
+                return json.loads(cached_result)
+            except json.JSONDecodeError:
+                pass # corrupted cache, re-fetch
 
         try:
             messages = []
@@ -88,7 +134,11 @@ class LLMClient:
             )
 
             content = response.choices[0].message.content
-            return json.loads(content)
+            result = json.loads(content)
+            
+            # Save to cache
+            redis_client.set(cache_key, json.dumps(result), expire=cache_ttl)
+            return result
         except json.JSONDecodeError as e:
             logger.error(f"Failed to parse LLM JSON response: {e}")
             raise
@@ -103,10 +153,11 @@ class LLMClient:
         temperature: float = 0.7,
         max_tokens: int = 2048,
     ) -> str:
-        """Generate chat response with conversation history."""
+        """Generate chat response with conversation history (responses typically not cached)."""
         if not self.is_available:
             return "I'm running in demo mode without an LLM API key. Please configure your GROQ_API_KEY in the .env file to get real AI-powered responses. Get a free key at https://console.groq.com"
 
+        # Chat history is dynamic, caching relies too much on entire conversation state.
         try:
             all_messages = []
             if system_prompt:

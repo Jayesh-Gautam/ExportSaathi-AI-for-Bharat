@@ -50,6 +50,7 @@ exportsathi/
 - Python 3.10+
 - Node.js 18+
 - PostgreSQL 15+
+- Redis Server 5+
 - AWS Account with Bedrock access
 
 ### Backend Setup
@@ -81,7 +82,10 @@ createdb exportsathi
 psql -d exportsathi -f database/schema.sql
 ```
 
-5. **Run backend server**:
+5. **Start Redis server**:
+Ensure your local Redis server is running (e.g., `redis-server` or via Docker: `docker run -d -p 6379:6379 redis`).
+
+6. **Run backend server**:
 ```bash
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 ```

@@ -43,3 +43,6 @@ htmlcov/
 
 # Gemini AI
 .gemini/
+
+# Keys
+*.pem

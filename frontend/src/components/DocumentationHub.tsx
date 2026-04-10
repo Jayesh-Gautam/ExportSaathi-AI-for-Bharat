@@ -62,7 +62,7 @@ export default function DocumentationHub({ reportData }: Props) {
     const activeDt = DOC_TYPES.find(d => d.id === selectedType);
 
     return (
-        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-4 sm:px-8 lg:px-12 pb-10 lg:pb-0">
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>

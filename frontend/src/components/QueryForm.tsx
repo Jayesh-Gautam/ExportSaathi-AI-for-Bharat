@@ -151,7 +151,7 @@ export default function QueryForm({ onSubmit, isLoading }: QueryFormProps) {
             transform: visible ? 'none' : 'translateY(24px)',
             transition: 'all 0.6s cubic-bezier(0.16,1,0.3,1)',
         }}>
-            <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-[clamp(24px,3vw,56px)] w-full max-w-[1280px] mx-auto items-center pb-20 lg:pb-0">
+            <div className="flex flex-col lg:grid lg:grid-cols-[1fr_1.05fr] gap-8 lg:gap-14 w-full max-w-[1280px] mx-auto items-center pb-20 lg:pb-0">
 
                 {/* ── LEFT PANEL: Brand + Info ───────────────────────── */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>

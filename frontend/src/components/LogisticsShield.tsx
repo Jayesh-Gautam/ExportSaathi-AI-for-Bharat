@@ -75,7 +75,7 @@ export default function LogisticsShield({ reportData }: Props) {
     const rmsColor = rms.risk_level === 'high' ? '#ef4444' : rms.risk_level === 'medium' ? '#f59e0b' : '#10b981';
 
     return (
-        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-4 sm:px-8 lg:px-12 pb-10 lg:pb-0">
             {/* Page title */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', flexShrink: 0 }}>
                 <span style={{ fontSize: '1.4rem' }}>🚢</span>

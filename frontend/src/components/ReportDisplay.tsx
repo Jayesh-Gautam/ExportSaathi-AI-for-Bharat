@@ -33,7 +33,7 @@ export default function ReportDisplay({ report, onBack, onCertClick }: ReportDis
     const scoreColor = riskColor(report.risk_score);
 
     return (
-        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-[clamp(16px,3vw,48px)] pb-10 lg:pb-0">
+        <div className="min-h-[calc(100vh-80px)] lg:h-[calc(100vh-80px)] flex flex-col pt-[16px] px-4 sm:px-8 lg:px-12 pb-10 lg:pb-0">
             {/* Page header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '14px', flexShrink: 0 }}>
                 <button onClick={onBack} className="btn-secondary" style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 14px', fontSize: '0.82rem' }}>
